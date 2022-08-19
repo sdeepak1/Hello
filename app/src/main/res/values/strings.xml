@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hello</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="new_user_ragister_here">New User/<font color="#000000">Register Here  </font> </string>
+</resources>
