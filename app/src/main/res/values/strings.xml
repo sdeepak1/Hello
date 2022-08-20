@@ -8,4 +8,5 @@
     <string name="already_user_login_here">Already User/<font color="#000000">Login Here</font></string>
     <string name="sign_up">Sign Up</string>
     <string name="enter_your_name">Enter Your Name</string>
+    <string name="hello_wrold">Hello Wrold</string>
 </resources>

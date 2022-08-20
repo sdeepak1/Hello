@@ -8,10 +8,13 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUp : AppCompatActivity() {
 
     private lateinit var mAuth:FirebaseAuth
+    lateinit var mRef:DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +41,7 @@ class SignUp : AppCompatActivity() {
                 name.error="Required"
                 return@setOnClickListener
             }
-           signUp(email.text.toString(), password.text.toString())
+           signUp(email.text.toString(), password.text.toString(),name.text.toString())
             //here login method of firebase
         }
 
@@ -48,19 +51,33 @@ class SignUp : AppCompatActivity() {
         }
     }
 
-    private fun signUp(email:String ,password:String){
+    private fun signUp(email:String ,password:String,name:String){
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this){
             task -> if(task.isSuccessful){
-                val userId=mAuth.currentUser
-            Toast.makeText(this, "account created successfully", Toast.LENGTH_SHORT).show()
-            val intent=Intent(this,MainActivity::class.java)
-            mAuth.signOut()
-            startActivity(intent)
+
+            addUserIntoDatabase(name,email, mAuth.currentUser?.uid!!)
+
         }else{
             //login failed
             Toast.makeText(this, "registration failed", Toast.LENGTH_SHORT).show()
 
         }
+        }
+    }
+
+    private fun addUserIntoDatabase(name:String,email: String,uid:String){
+        mRef=FirebaseDatabase.getInstance().getReference()
+        mRef.child("User").child(uid).setValue(User(name,email,uid)).addOnCompleteListener(this){
+            task ->
+            if (task.isSuccessful){
+                Toast.makeText(this, "account created successfully", Toast.LENGTH_SHORT).show()
+                val intent=Intent(this,MainActivity::class.java)
+                mAuth.signOut()
+                startActivity(intent)
+            }else{
+                Toast.makeText(this, "account created Unsuccessfully", Toast.LENGTH_SHORT).show()
+
+            }
         }
     }
 }
