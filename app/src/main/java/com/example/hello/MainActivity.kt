@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-
-
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var mAuth:FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         val login=findViewById<Button>(R.id.login)
         val getEmail=findViewById<EditText>(R.id.editTextEmail)
         val getPassword=findViewById<EditText>(R.id.editTextPassword)
+
+        mAuth= FirebaseAuth.getInstance()
         login.setOnClickListener{
             if(getEmail.text.toString().length<=0){
                 getEmail.error = "Required"
@@ -32,12 +35,27 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             //here login function
+            login(getEmail.text.toString(),getPassword.text.toString())
         }
+
+
         moveToRegister.setOnClickListener{
-         // val intent= Intent(this,SignUp::class.java)
+          val intent= Intent(this,SignUp::class.java)
+            startActivity(intent)
         }
 
 
+    }
+
+    private fun login(email:String, password:String){
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this){
+            task -> if(task.isSuccessful){
+            Toast.makeText(this, "login successfully", Toast.LENGTH_SHORT).show()
+                //login suucersfully
+        }else{
+            //login failed
+        }
+        }
     }
 }
 
