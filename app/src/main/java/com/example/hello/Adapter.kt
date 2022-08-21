@@ -1,6 +1,7 @@
 package com.example.hello
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,12 @@ class Adapter(val context:Context,val userList: ArrayList<User>): RecyclerView.A
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val current=userList[position].name
         holder.setData(current.toString())
+
+        holder.itemView.setOnClickListener{
+            val intent= Intent(context,Chat::class.java)
+            intent.putExtra("uid",userList[position].uid)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

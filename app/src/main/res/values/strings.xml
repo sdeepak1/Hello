@@ -9,4 +9,5 @@
     <string name="sign_up">Sign Up</string>
     <string name="enter_your_name">Enter Your Name</string>
     <string name="hello_wrold">Hello Wrold</string>
+    <string name="type_message_here">type message here</string>
 </resources>
